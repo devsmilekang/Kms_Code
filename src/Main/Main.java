@@ -1,6 +1,9 @@
 package Main;
 
+import java.io.IOException;
+
 import kmsUtill.KmsMethod;
+import kmsUtill.KmsProperty;
 
 public class Main {
 	public static void main(String args[]){
@@ -17,5 +20,15 @@ public class Main {
 		//Null, 빈값일 때 문자변환
 		//System.out.print("Null, 빈값일 때 문자변환 ");
 		//System.out.println(kms.isNull("", "null 값"));
+		
+		//property 읽어오기
+		//System.out.print("property 읽어오기 ");
+		try {
+			KmsProperty pro = new KmsProperty("path");
+			System.out.println(pro.getProperty("property_name"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
