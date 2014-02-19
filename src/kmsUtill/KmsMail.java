@@ -69,31 +69,51 @@ public class KmsMail {
 		this.session = Session.getInstance(props);
 	}
 	
-	
-	public void sendMail(String subject, String massage, String filepath) throws MessagingException, IOException {
-		MimeMultipart multipart = new MimeMultipart();
-		Message msg = new MimeMessage(this.session);
+	public void maliBody(String subject, String message, Message msg, MimeBodyPart bodypart,MimeMultipart multipart) throws MessagingException{
 		msg.setFrom(new InternetAddress(this.from));
 		InternetAddress[] address = {new InternetAddress(to)};
         msg.setRecipients(Message.RecipientType.TO, address);
         msg.setSubject(subject);
-        msg.setSentDate(new java.util.Date());
-       // msg.setContent("테스트메일로 보냅니다.","text/html; charset=UTF-8");
-        
-        //파일첨부
-        if(!"".equals(filepath)){
-	        MimeBodyPart filepart = new MimeBodyPart();
+        msg.setSentDate(new java.util.Date());        
+        bodypart.setContent(message,"text/html; charset=UTF-8");
+        multipart.addBodyPart(bodypart);
+	}
+	
+	public void fileAttach(MimeMultipart multipart,MimeBodyPart filepart,String filepath) throws IOException, MessagingException{
+		if(!"".equals(filepath)){
 	        File file = new File(filepath);
 	        filepart.setDataHandler(new DataHandler(new FileDataSource(file)));
 	        filepart.setFileName(file.getName());
 	        multipart.addBodyPart(filepart);
         }
-        MimeBodyPart bodypart = new MimeBodyPart();
-        bodypart.setContent(massage,"text/html; charset=UTF-8");
-        multipart.addBodyPart(bodypart);
-        
-        
+	}
+	
+	public void sendMail(String subject, String message, String filepath) throws MessagingException, IOException {
+		MimeMultipart multipart = new MimeMultipart();
+		Message msg = new MimeMessage(this.session);
+		MimeBodyPart filepart = new MimeBodyPart();
+		MimeBodyPart bodypart = new MimeBodyPart();
+		
+		maliBody(subject,message,msg,bodypart,multipart);
+		fileAttach(multipart,filepart,filepath);
+		
         msg.setContent(multipart);
+        Transport transport = this.session.getTransport("smtp");
+        transport.connect(this.hostname,this.from,this.from_pwd); 
+        transport.sendMessage(msg, msg.getAllRecipients());
+        transport.close();
+	}
+	
+	public void sendMail(String subject, String message, String filepath[]) throws MessagingException, IOException {
+		MimeMultipart multipart = new MimeMultipart();
+		Message msg = new MimeMessage(this.session);
+		MimeBodyPart filepart = new MimeBodyPart();
+		MimeBodyPart bodypart = new MimeBodyPart();
+		maliBody(subject,message,msg,bodypart,multipart);
+		for(int k=0; k<filepath.length; k++){
+			fileAttach(multipart,filepart,filepath[k]);
+		}
+		msg.setContent(multipart);
         Transport transport = this.session.getTransport("smtp");
         transport.connect(this.hostname,this.from,this.from_pwd); 
         transport.sendMessage(msg, msg.getAllRecipients());

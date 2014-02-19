@@ -33,15 +33,16 @@ public class Main {
 		}*/
 		
 		//Mail 보내기
-		/*try{
+		try{
+			String filepath[] = {"test.txt", "test.txt"};
 			String to = "kangminser88@naver.com";
 			String from = "kangminser@handysoft.co.kr";
 			String host = "sniper.handysoft.co.kr";
 			KmsMail mail = new KmsMail(to, from, host, "as");
-			mail.sendMail("제목", "내용", "");
+			mail.sendMail("제목", "내용", filepath);
 		}
 		catch(Exception e){
 			e.printStackTrace();
-		}*/
+		}
 	}
 }
