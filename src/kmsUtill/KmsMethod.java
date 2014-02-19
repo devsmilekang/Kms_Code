@@ -22,15 +22,15 @@ public class KmsMethod {
 	}
 	
 	// 숫자 콤마 제거
-	public String commaRemove(Object num){
+	public static String commaRemove(Object num){
 		return String.valueOf(num).replaceAll(",", "");
 	}
 	
 	//Null값을 빈 값으로 돌려주기
-	public String isNull(Object obj){
+	public static String isNull(Object obj){
 		return isNull(obj, "");
 	}
-	public String isNull(Object obj, String str){
+	public static String isNull(Object obj, String str){
 		if(obj == null || "".equals(String.valueOf(obj).trim()) || "null".equals(String.valueOf(obj).trim())){
 			return str;
 		}
