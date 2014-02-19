@@ -1,10 +1,9 @@
 package Main;
 
-import java.io.IOException;
+import java.util.ArrayList;
 
-import kmsUtill.KmsMail;
+import kmsUtill.KmsExcel;
 import kmsUtill.KmsMethod;
-import kmsUtill.KmsProperty;
 
 public class Main {
 	public static void main(String args[]){
@@ -33,7 +32,7 @@ public class Main {
 		}*/
 		
 		//Mail ∫∏≥ª±‚
-		try{
+		/*try{
 			String filepath[] = {"test.txt", "test.txt"};
 			String to = "kangminser88@naver.com";
 			String from = "kangminser@handysoft.co.kr";
@@ -43,6 +42,22 @@ public class Main {
 		}
 		catch(Exception e){
 			e.printStackTrace();
-		}
+		}*/
+		
+		//Excel Data √ﬂ√‚(ø¢ºø)
+		/*try {
+			KmsExcel excel = new KmsExcel("","test.xlsx");
+			ArrayList<Object[]> list =  excel.sheet_extract(0);
+			for(int k=0; k<list.size(); k++){
+				Object obj[] = list.get(k);
+				for(int m=0; m<obj.length; m++){
+					System.out.print(obj[m] + " : ");
+				}
+				System.out.println();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 	}
 }
