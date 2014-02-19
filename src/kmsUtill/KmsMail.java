@@ -1,13 +1,19 @@
 package kmsUtill;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 /**************************************************
  * lib 폴더에 있는 mail.jar 파일 import 
@@ -64,14 +70,30 @@ public class KmsMail {
 	}
 	
 	
-	public void sendMail() throws MessagingException {
+	public void sendMail(String subject, String massage, String filepath) throws MessagingException, IOException {
+		MimeMultipart multipart = new MimeMultipart();
 		Message msg = new MimeMessage(this.session);
 		msg.setFrom(new InternetAddress(this.from));
 		InternetAddress[] address = {new InternetAddress(to)};
         msg.setRecipients(Message.RecipientType.TO, address);
-        msg.setSubject("[제목] 자바메일보내기");
+        msg.setSubject(subject);
         msg.setSentDate(new java.util.Date());
-        msg.setContent("테스트메일로 보냅니다.","text/html; charset=UTF-8");
+       // msg.setContent("테스트메일로 보냅니다.","text/html; charset=UTF-8");
+        
+        //파일첨부
+        if(!"".equals(filepath)){
+	        MimeBodyPart filepart = new MimeBodyPart();
+	        File file = new File(filepath);
+	        filepart.setDataHandler(new DataHandler(new FileDataSource(file)));
+	        filepart.setFileName(file.getName());
+	        multipart.addBodyPart(filepart);
+        }
+        MimeBodyPart bodypart = new MimeBodyPart();
+        bodypart.setContent(massage,"text/html; charset=UTF-8");
+        multipart.addBodyPart(bodypart);
+        
+        
+        msg.setContent(multipart);
         Transport transport = this.session.getTransport("smtp");
         transport.connect(this.hostname,this.from,this.from_pwd); 
         transport.sendMessage(msg, msg.getAllRecipients());

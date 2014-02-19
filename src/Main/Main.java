@@ -38,7 +38,7 @@ public class Main {
 			String from = "kangminser@handysoft.co.kr";
 			String host = "sniper.handysoft.co.kr";
 			KmsMail mail = new KmsMail(to, from, host, "as");
-			mail.sendMail();
+			mail.sendMail("제목", "내용", "");
 		}
 		catch(Exception e){
 			e.printStackTrace();
