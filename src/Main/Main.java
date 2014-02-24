@@ -1,8 +1,5 @@
 package Main;
 
-import java.util.ArrayList;
-
-import kmsUtill.KmsExcel;
 import kmsUtill.KmsMethod;
 
 public class Main {
@@ -59,5 +56,10 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
+		
+		//원하는 Date Type으로 날짜가져오기 getDate
+		//오늘 날짜 가져오기 getToday
+		//System.out.println(KmsMethod.getToday("yyyy-MM-dd HH:mm:ss"));
+		
 	}
 }
