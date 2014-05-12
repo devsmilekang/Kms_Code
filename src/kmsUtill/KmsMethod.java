@@ -8,21 +8,51 @@ import java.util.Date;
 
 public class KmsMethod {
 	public KmsMethod() {}
-	//숫자 콤마 찍기
+	//숫자 콤마 찍기 및 숫자체크
+	//update 2014-05-12 (소숫점 숫자일 때 처리)
 	public static String commaAdd(Object num){
 		String original = String.valueOf(num).trim();
-		String convert = "";
-		int count = 1;
-		for(int k=original.length()-1; k>-1; k--){			
-			if( (count%3) == 0 && k < original.length()-1 && k > 0){
-				convert = "," +original.charAt(k)  + convert;
+		//String original = String.valueOf(20000.12).trim();
+		System.out.println(original);
+		try{			
+			String original_decimal[] = original.split("[.]");
+			System.out.println("original_decimal.length : " +original.split(".").length);
+			if(original_decimal.length > 2 ){
+				System.out.println(".이 2개 이상 들어있습니다.");
+				return original;
+			}
+			String convert = "";
+			int count = 1;
+			for(int k=original_decimal[0].length()-1; k>-1; k--){			
+				//숫자인지 체크
+				System.out.println("char : " + (int)original_decimal[0].charAt(k));
+				if(original_decimal[0].charAt(k) >= 48 && original_decimal[0].charAt(k) <= 57){
+					if( (count%3) == 0 && k < original_decimal[0].length()-1 && k > 0){
+						convert = "," +original_decimal[0].charAt(k)  + convert;
+					}
+					else{
+						convert = original_decimal[0].charAt(k) + convert;
+					}
+				}
+				else{
+					System.out.println("commaAdd 에러 -> 숫자가 아닌 값이 들어있습니다.");
+					return original;
+				}
+				count++;
+			}
+			if(original_decimal.length == 2){
+				return convert+"."+original_decimal[1];
 			}
 			else{
-				convert = original.charAt(k) + convert;
+				return convert;
 			}
-			count++;
+			
 		}
-		return convert;
+		catch(Exception e){
+			e.printStackTrace();
+			System.out.println("숫자 ,처리 에러");
+			return original;
+		}
 	}
 	
 	// 숫자 콤마 제거
